@@ -1,0 +1,26 @@
+#!/bin/bash
+
+TESTSOK=1
+
+function ctrl_c {
+    if [ $TESTSOK -eq 0 ]; then
+        echo ""
+        echo "Rebuilding application"
+        rebar co
+        rebar escriptize
+    fi
+    exit
+}
+
+trap ctrl_c EXIT
+
+while true; do
+
+    ./rebar eunit skip_deps=true
+    TESTSOK=$?
+
+    echo ""
+    # Wait for CRUD of files
+    # (do not consider temporary files created by emacs and gedit)
+    inotifywait -qr -e modify -e create -e move -e delete src test --exclude "\.\#.*" --exclude "\.goutputstream\-.*"
+done

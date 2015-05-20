@@ -1,0 +1,14 @@
+{application, budget,
+ [
+  {description, "An Erlang budget library"},
+  {vsn, "1"},
+  {modules, [
+             budget
+            ]},
+  {registered, []},
+  {applications, [
+                  kernel,
+                  stdlib
+                 ]},
+  {env, []}
+ ]}.
